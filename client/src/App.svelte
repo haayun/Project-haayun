@@ -1,30 +1,40 @@
 <script>
-	export let name;
+  import Modal from './Modal.svelte';
+	import { time, elapsed } from './stores.js';
+
+  let showModal = false;
+
+  const toggleModal = () => {
+    showModal = !showModal;
+  };
+
+	const formatter = new Intl.DateTimeFormat('en', {
+		hour12: true,
+		hour: 'numeric',
+		minute: '2-digit',
+		second: '2-digit'
+	});
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<Modal {showModal} on:click={toggleModal}>
+  <form>
+    <input type="text" placeholder="name" />
+    <input type="text" placeholder="hair color" />
+    <button>Add Person</button>
+  </form>
+  <div slot="title">
+    <h3>Add a new person</h3>
+  </div>
+</Modal>
+<button on:click={toggleModal}>Open Modal</button>
+<h1>The time is {formatter.format($time)}</h1>
+
+<p>
+	This page has been open for
+	{$elapsed} {$elapsed === 1 ? 'second' : 'seconds'}
+</p>
+
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  
 </style>
